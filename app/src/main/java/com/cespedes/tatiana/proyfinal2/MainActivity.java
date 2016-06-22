@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                 if (arg1.getAction() == MotionEvent.ACTION_MOVE) {
                     tiempo2 = (arg1.getEventTime() - tiempo);
                     tiempo3 = (arg1.getEventTime() - tiempo);
-                    if (tiempo2 > 1000) {
+                    if (tiempo2 > 500) {
 
                         upx = arg1.getX();
                         upy = arg1.getY();
@@ -238,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
                     SVhorizontal.setEnableScrolling(true);
                     SVvertical.setEnableScrolling(true);
                     path = new Path();
-                    if (tiempo2 > 1000 && cablearOcompuertas == 0) {
+                    if (tiempo2 > 500 && cablearOcompuertas == 0) {
                         cables[nCables] = new cables(recorrido);
                         recorrido.clear();
                         cables[nCables].pi = distancia_minima(downx, downy);
@@ -858,7 +858,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if(FGHIJ[m][n].getCoordenada_x()==x2  && FGHIJ[m][n].getCoordenada_y() == y2){
                     FGHIJ[m][n]=actual;
-                    Toast.makeText(getApplicationContext(), "FGHIJ " + FGHIJ[m][n].getConexion(), Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(getApplicationContext(), "FGHIJ " + FGHIJ[m][n].getConexion(), Toast.LENGTH_SHORT).show();
                 }
 
                 if(m<50 && n<2) {
