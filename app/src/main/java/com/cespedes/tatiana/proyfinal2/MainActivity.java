@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                     path.moveTo(downx, downy);
                     punto1 = new matrices();
                     punto1 = distancia_minima(downx, downy);
-                    Toast.makeText(getApplicationContext(), "Conexiones:  " + punto1.getConexion(), Toast.LENGTH_SHORT).show();
+                //    Toast.makeText(getApplicationContext(), "Conexiones:  " + punto1.getConexion(), Toast.LENGTH_SHORT).show();
 
                     if (punto1.estado == 1 && borrar == 1) {
                         borrarCable(punto1.nCable);
@@ -335,9 +335,9 @@ public class MainActivity extends AppCompatActivity {
                             mcompuerta[3][0].setConexion(1);
                             newmatrices = distancia_minima(mcompuerta[3][0].getCoordenada_x(), mcompuerta[3][0].getCoordenada_y());
 
-                            Toast.makeText(getApplicationContext(), "Conex  " + newmatrices.getConexion(), Toast.LENGTH_SHORT).show();
+                          //  Toast.makeText(getApplicationContext(), "Conex  " + newmatrices.getConexion(), Toast.LENGTH_SHORT).show();
                             newmatrices.setConexion(1);
-                            Toast.makeText(getApplicationContext(), "Conex2  " + newmatrices.getConexion()  , Toast.LENGTH_SHORT).show();
+                          //  Toast.makeText(getApplicationContext(), "Conex2  " + newmatrices.getConexion()  , Toast.LENGTH_SHORT).show();
                             cambiarestado(newmatrices);
                         }
                         if(mcompuerta[4][0].getConexion() ==1  && mcompuerta[5][0].getConexion()==1){
@@ -461,7 +461,8 @@ public class MainActivity extends AppCompatActivity {
                     Protoboard.invalidate();
 
                 }else{
-
+                    OnOff=0;
+                    bOnOff.setText("On");
                     leds11.setVisibility(View.INVISIBLE);
                     leds12.setVisibility(View.INVISIBLE);
                     leds13.setVisibility(View.INVISIBLE);
@@ -478,8 +479,7 @@ public class MainActivity extends AppCompatActivity {
                     leds34.setVisibility(View.INVISIBLE);
                     leds35.setVisibility(View.INVISIBLE);
 
-                    OnOff=0;
-                    bOnOff.setText("On");
+
                     Protoboard.invalidate();
                 }
                 Protoboard.invalidate();
