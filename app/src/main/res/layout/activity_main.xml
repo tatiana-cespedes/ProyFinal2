@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cespedes.tatiana.proyfinal2.MainActivity">
+
+    <com.cespedes.tatiana.proyfinal2.CustomHorizontalScrollView
+        android:id="@+id/SVhorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <com.cespedes.tatiana.proyfinal2.CustomScrollView
+                android:id="@+id/SVvertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="15"
+                        android:orientation="horizontal"
+
+                        >
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Activar Borrar"
+                            android:id="@+id/boton"
+                            />
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Off"
+                            android:id="@+id/bOnOff"/>
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Compuertas"
+                            android:id="@+id/bCabComp"/>
+
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:src="@drawable/sieteseg"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:scaleType= "matrix"
+                        android:id="@+id/Linear1"
+                        >
+
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:layout_width="700dp"
+                                android:layout_height="38dp"
+                                android:src="@drawable/arriba"
+                                android:id="@+id/Iarriba"
+                                />
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/prendido"
+                                android:layout_marginTop="18dp"
+                                android:layout_marginLeft="29dp"
+                                android:visibility="invisible"
+                                android:id="@+id/led11"
+
+                                />
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/prendido"
+                                android:layout_marginTop="18dp"
+                                android:layout_marginLeft="50dp"
+                                android:visibility="invisible"
+                                android:id="@+id/led12"
+
+                                />
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/prendido"
+                                android:layout_marginTop="18dp"
+                                android:layout_marginLeft="71dp"
+                                android:visibility="invisible"
+                                android:id="@+id/led13"
+
+                                />
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/prendido"
+                                android:layout_marginTop="18dp"
+                                android:layout_marginLeft="92dp"
+                                android:visibility="invisible"
+                                android:id="@+id/led14"
+                                />
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/prendido"
+                                android:layout_marginTop="18dp"
+                                android:layout_marginLeft="113dp"
+                                android:visibility="invisible"
+                                android:id="@+id/led15"
+                                />
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/prendido"
+                                android:layout_marginTop="18dp"
+                                android:layout_marginLeft="158dp"
+                                android:visibility="invisible"
+                                android:id="@+id/led21"
+                                />
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/prendido"
+                                android:layout_marginTop="18dp"
+                                android:layout_marginLeft="179dp"
+                                android:visibility="invisible"
+                                android:id="@+id/led22"
+                                />
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/prendido"
+                                android:layout_marginTop="18dp"
+                                android:layout_marginLeft="200dp"
+                                android:visibility="invisible"
+                                android:id="@+id/led23"
+                                />
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/prendido"
+                                android:layout_marginTop="18dp"
+                                android:layout_marginLeft="221dp"
+                                android:visibility="invisible"
+                                android:id="@+id/led24"
+                                />
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/prendido"
+                                android:layout_marginTop="18dp"
+                                android:layout_marginLeft="242dp"
+                                android:visibility="invisible"
+                                android:id="@+id/led25"
+                                />
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/prendido"
+                                android:layout_marginTop="18dp"
+                                android:layout_marginLeft="287dp"
+                                android:visibility="invisible"
+                                android:id="@+id/led31"
+                                />
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/prendido"
+                                android:layout_marginTop="18dp"
+                                android:layout_marginLeft="308dp"
+                                android:visibility="invisible"
+                                android:id="@+id/led32"
+                                />
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/prendido"
+                                android:layout_marginTop="18dp"
+                                android:layout_marginLeft="329dp"
+                                android:visibility="invisible"
+                                android:id="@+id/led33"
+                                />
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/prendido"
+                                android:layout_marginTop="18dp"
+                                android:layout_marginLeft="350dp"
+                                android:visibility="invisible"
+                                android:id="@+id/led34"
+                                />
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/prendido"
+                                android:layout_marginTop="18dp"
+                                android:layout_marginLeft="371dp"
+                                android:visibility="invisible"
+                                android:id="@+id/led35"
+                                />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            >
+                            <ImageView
+                                android:layout_width="700dp"
+                                android:layout_height="290dp"
+                                android:id="@+id/protoboard"
+                                android:src="@drawable/protoboard"
+                                />
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/and"
+                                android:id="@+id/Icompuerta"
+                                android:layout_marginTop="253dp"
+                                android:layout_marginLeft="615dp"
+
+                                />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="15"
+                        android:orientation="horizontal"
+
+                        >
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/texto"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:src="@drawable/sieteseg"
+                            />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.cespedes.tatiana.proyfinal2.CustomScrollView>
+
+        </LinearLayout>
+
+    </com.cespedes.tatiana.proyfinal2.CustomHorizontalScrollView>
+</RelativeLayout>
