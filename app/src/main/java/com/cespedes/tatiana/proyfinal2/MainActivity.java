@@ -28,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    ImageView Protoboard, componentes, arriba;
+    ImageView Protoboard, componentes, arriba, componenteOr, componenteNot;
     ImageView leds11, leds12, leds13, leds14, leds15, leds21, leds22, leds23, leds24, leds25, leds31, leds32, leds33, leds34, leds35;
     TextView textView;
-    Button boton, bOnOff, bCableComp;
+    Button boton, bOnOff, bCableComp, botonAnd, botonOr, botonNot;
     LinearLayout linerLa;
 
  //   ScaleGestureDetector SGD;
@@ -41,12 +41,12 @@ public class MainActivity extends AppCompatActivity {
     matrices[] leds, sieteseg1, vcc1, gnd1 ;
     matrices[][] switchs, relojs;
 
-    matrices[][] mcompuerta;
+    matrices[][] mcompuerta, mcompuertaOr, mcompuertaNot;
 
     cables cables[];
     int nCables=0;
 
-    int borrar=0, cablearOcompuertas=0, OnOff=0;
+    int borrar=0, cablearOcompuertas=0, OnOff=0, And=0, Or=0, Not=0;
 
     double x_compuerta=0;
 
@@ -67,12 +67,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Protoboard = (ImageView)findViewById(R.id.protoboard);
         componentes = (ImageView)findViewById(R.id.Icompuerta);
+        componenteOr = (ImageView)findViewById(R.id.IcompuertaOr);
+        componenteNot = (ImageView)findViewById(R.id.IcompuertaNot);
         arriba = (ImageView)findViewById(R.id.Iarriba);
         linerLa = (LinearLayout) findViewById(R.id.Linear1);
 
         boton = (Button) findViewById(R.id.boton);
         bOnOff = (Button) findViewById(R.id.bOnOff);
         bCableComp = (Button) findViewById(R.id.bCabComp);
+        botonAnd = (Button) findViewById(R.id.botonAnd);
+        botonOr = (Button) findViewById(R.id.botonOr);
+        botonNot = (Button) findViewById(R.id.botonNot);
         textView = (TextView)findViewById(R.id.texto);
         textView.setText("X: ,Y: ");
         ABCDE = new matrices[63][5];
@@ -102,12 +107,18 @@ public class MainActivity extends AppCompatActivity {
         Protoboard.setImageBitmap(this.bitmap);
 
         mcompuerta = new matrices[7][2];
+        mcompuertaOr = new matrices[7][2];
+        mcompuertaNot = new matrices[7][2];
 
        // SGD = new ScaleGestureDetector(this, new ScaleListener());
 
         for(int i=0; i<7; i++){
             mcompuerta[i][0] = new matrices();
             mcompuerta[i][1] = new matrices();
+            mcompuertaOr[i][0] = new matrices();
+            mcompuertaOr[i][1] = new matrices();
+            mcompuertaNot[i][0] = new matrices();
+            mcompuertaNot[i][1] = new matrices();
         }
         leds11= (ImageView) findViewById(R.id.led11);
         leds12= (ImageView) findViewById(R.id.led12);
@@ -172,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View arg0, MotionEvent arg1) {
 
-             //   SGD.onTouchEvent(arg1);
+                //   SGD.onTouchEvent(arg1);
                 stringBuilder.setLength(0);
 
                 if (arg1.getAction() == MotionEvent.ACTION_DOWN) {
@@ -183,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
                     path.moveTo(downx, downy);
                     punto1 = new matrices();
                     punto1 = distancia_minima(downx, downy);
-                //    Toast.makeText(getApplicationContext(), "Conexiones:  " + punto1.getConexion(), Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(getApplicationContext(), "Conexiones:  " + punto1.getConexion(), Toast.LENGTH_SHORT).show();
 
                     if (punto1.estado == 1 && borrar == 1) {
                         borrarCable(punto1.nCable);
@@ -207,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
 
                         upx = arg1.getX();
                         upy = arg1.getY();
-                        if (cablearOcompuertas == 0) {
+                        if (borrar == 0 && cablearOcompuertas ==0) {
                             path.lineTo(upx, upy);
                             canvas.drawPath(path, paint);
                             punto2 = new matrices();
@@ -220,9 +231,27 @@ public class MainActivity extends AppCompatActivity {
                         SVhorizontal.setEnableScrolling(false);
                         SVvertical.setEnableScrolling(false);
                     }
-                    if (tiempo3 > 200 && cablearOcompuertas == 1) {
+                    if (tiempo3 > 200 && And == 1 && cablearOcompuertas== 1) {
                         componentes.setTranslationX(upx - 990);
                         componentes.setTranslationY(upy - 400);
+                        Protoboard.invalidate();
+                        SVhorizontal.setEnableScrolling(false);
+                        SVvertical.setEnableScrolling(false);
+
+                    }
+
+                    if (tiempo3 > 200 && Or == 1 && cablearOcompuertas== 1) {
+                        componenteOr.setTranslationX(upx - 990);
+                        componenteOr.setTranslationY(upy - 400);
+                        Protoboard.invalidate();
+                        SVhorizontal.setEnableScrolling(false);
+                        SVvertical.setEnableScrolling(false);
+
+                    }
+
+                    if (tiempo3 > 200 && Not == 1 && cablearOcompuertas== 1) {
+                        componenteNot.setTranslationX(upx - 990);
+                        componenteNot.setTranslationY(upy - 400);
                         Protoboard.invalidate();
                         SVhorizontal.setEnableScrolling(false);
                         SVvertical.setEnableScrolling(false);
@@ -238,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
                     SVhorizontal.setEnableScrolling(true);
                     SVvertical.setEnableScrolling(true);
                     path = new Path();
-                    if (tiempo2 > 500 && cablearOcompuertas == 0) {
+                    if (tiempo2 > 500 && borrar == 0 && cablearOcompuertas ==0) {
                         cables[nCables] = new cables(recorrido);
                         recorrido.clear();
                         cables[nCables].pi = distancia_minima(downx, downy);
@@ -267,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
 
-                    if (tiempo3 > 200 && cablearOcompuertas == 1) {
+                    if (tiempo3 > 200 && And == 1 && cablearOcompuertas ==1) {
                         componentes.setTranslationY(-203);
                         Protoboard.invalidate();
                         x_compuerta = upx;
@@ -295,6 +324,63 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
+                    if (tiempo3 > 200 && Or == 1 && cablearOcompuertas ==1) {
+                        componenteOr.setTranslationY(-203);
+                        Protoboard.invalidate();
+                        x_compuerta = upx;
+                        comp1 = new matrices();
+                        comp2 = new matrices();
+                        for (int i = 0; i < 7; i++) {
+                            mcompuertaOr[i][0] = new matrices();
+                            mcompuertaOr[i][1] = new matrices();
+                            mcompuertaOr[i][0].setCoordenada_x(x_compuerta - 56);
+                            mcompuertaOr[i][0].setCoordenada_y(180);
+                            mcompuertaOr[i][1].setCoordenada_x(x_compuerta - 56);
+                            mcompuertaOr[i][1].setCoordenada_y(227);
+
+                            comp1 = distancia_minima(mcompuertaOr[i][0].getCoordenada_x(), mcompuertaOr[i][0].getCoordenada_y());
+                            comp2 = distancia_minima(mcompuertaOr[i][1].getCoordenada_x(), mcompuertaOr[i][1].getCoordenada_y());
+                            comp1.setEstado(1);
+                            comp2.setEstado(1);
+                            cambiarestado(comp1);
+                            cambiarestado(comp2);
+                            mcompuertaOr[i][0].setConexion(comp1.getConexion());
+                            mcompuertaOr[i][1].setConexion(comp2.getConexion());
+                            //     canvas.drawPoint((float) x_compuerta - 56, 180, paint);
+                            //    canvas.drawPoint((float) x_compuerta -56, 227, paint);
+                            x_compuerta = x_compuerta + 16.17;
+                        }
+                    }
+                    if (tiempo3 > 200 && Not == 1 && cablearOcompuertas ==1) {
+                        componenteNot.setTranslationY(-203);
+                        Protoboard.invalidate();
+                        x_compuerta = upx;
+                        comp1 = new matrices();
+                        comp2 = new matrices();
+                        for (int i = 0; i < 7; i++) {
+                            mcompuertaNot[i][0] = new matrices();
+                            mcompuertaNot[i][1] = new matrices();
+                            mcompuertaNot[i][0].setCoordenada_x(x_compuerta - 56);
+                            mcompuertaNot[i][0].setCoordenada_y(180);
+                            mcompuertaNot[i][1].setCoordenada_x(x_compuerta - 56);
+                            mcompuertaNot[i][1].setCoordenada_y(227);
+
+                            comp1 = distancia_minima(mcompuertaNot[i][0].getCoordenada_x(), mcompuertaNot[i][0].getCoordenada_y());
+                            comp2 = distancia_minima(mcompuertaNot[i][1].getCoordenada_x(), mcompuertaNot[i][1].getCoordenada_y());
+                            comp1.setEstado(1);
+                            comp2.setEstado(1);
+                            cambiarestado(comp1);
+                            cambiarestado(comp2);
+                            mcompuertaNot[i][0].setConexion(comp1.getConexion());
+                            mcompuertaNot[i][1].setConexion(comp2.getConexion());
+                            //     canvas.drawPoint((float) x_compuerta - 56, 180, paint);
+                            //    canvas.drawPoint((float) x_compuerta -56, 227, paint);
+                            x_compuerta = x_compuerta + 16.17;
+                        }
+                    }
+
+
+
                     tiempo2 = 0;
                 }
                 //Se muestra en pantalla las coordenadas
@@ -308,10 +394,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (borrar == 0) {
                     borrar = 1;
-                    boton.setText("Desactivar Borrar");
+                    boton.setText("Cablear");
+                    Protoboard.invalidate();
                 } else {
                     borrar = 0;
-                    boton.setText("Activar Borrar");
+                    boton.setText("Borrar");
                 }
             }
         });
@@ -367,6 +454,131 @@ public class MainActivity extends AppCompatActivity {
                     }else{
                         Toast.makeText(getApplicationContext(), "Compuerta no polarizada  " , Toast.LENGTH_SHORT).show();
                     }
+
+
+
+                    if(mcompuertaOr[0][0].getConexion()==1 && mcompuertaOr[6][1].getConexion()==0) {
+
+                        if(mcompuertaOr[1][0].getConexion() ==1 || mcompuertaOr[2][0].getConexion()==1){
+
+                            mcompuertaOr[3][0].setConexion(1);
+                            newmatrices = distancia_minima(mcompuertaOr[3][0].getCoordenada_x(), mcompuertaOr[3][0].getCoordenada_y());
+
+                            //  Toast.makeText(getApplicationContext(), "Conex  " + newmatrices.getConexion(), Toast.LENGTH_SHORT).show();
+                            newmatrices.setConexion(1);
+                            //  Toast.makeText(getApplicationContext(), "Conex2  " + newmatrices.getConexion()  , Toast.LENGTH_SHORT).show();
+                            cambiarestado(newmatrices);
+                        }
+                        if(mcompuertaOr[4][0].getConexion() ==1  || mcompuertaOr[5][0].getConexion()==1){
+                            mcompuertaOr[6][0].setConexion(1);
+                            newmatrices = distancia_minima(mcompuertaOr[6][0].getCoordenada_x(), mcompuertaOr[6][0].getCoordenada_y());
+                            newmatrices.setConexion(1);
+                            cambiarestado(newmatrices);
+
+                        }
+                        if(mcompuertaOr[0][1].getConexion() ==1  || mcompuertaOr[1][1].getConexion()==1){
+                            mcompuertaOr[2][1].setConexion(1);
+                            newmatrices = distancia_minima(mcompuertaOr[2][1].getCoordenada_x(), mcompuertaOr[2][1].getCoordenada_y());
+                            newmatrices.setConexion(1);
+                            cambiarestado(newmatrices);
+
+                        }
+                        if(mcompuertaOr[3][1].getConexion() ==1  && mcompuertaOr[4][1].getConexion()==1){
+                            mcompuertaOr[5][1].setConexion(1);
+                            newmatrices = distancia_minima(mcompuertaOr[5][1].getCoordenada_x(), mcompuertaOr[5][1].getCoordenada_y());
+                            newmatrices.setConexion(1);
+                            cambiarestado(newmatrices);
+
+                        }
+
+                        cambiarconexionespropias();
+                        cambiarconexiones();
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Compuerta no polarizada  " , Toast.LENGTH_SHORT).show();
+                    }
+
+                    if(mcompuertaNot[0][0].getConexion()==1 && mcompuertaNot[6][1].getConexion()==0) {
+
+                        if(mcompuertaNot[1][0].getConexion() ==1){
+
+                            mcompuertaNot[2][0].setConexion(0);
+                            newmatrices = distancia_minima(mcompuertaNot[2][0].getCoordenada_x(), mcompuertaNot[2][0].getCoordenada_y());
+                            newmatrices.setConexion(0);
+                            cambiarestado(newmatrices);
+                        }else{
+                            mcompuertaNot[2][0].setConexion(1);
+                            newmatrices = distancia_minima(mcompuertaNot[2][0].getCoordenada_x(), mcompuertaNot[2][0].getCoordenada_y());
+                            newmatrices.setConexion(1);
+                            cambiarestado(newmatrices);
+                        }
+                        if(mcompuertaNot[3][0].getConexion() ==1){
+
+                            mcompuertaNot[4][0].setConexion(0);
+                            newmatrices = distancia_minima(mcompuertaNot[4][0].getCoordenada_x(), mcompuertaNot[4][0].getCoordenada_y());
+                            newmatrices.setConexion(0);
+                            cambiarestado(newmatrices);
+                        }else{
+                            mcompuertaNot[4][0].setConexion(1);
+                            newmatrices = distancia_minima(mcompuertaNot[4][0].getCoordenada_x(), mcompuertaNot[4][0].getCoordenada_y());
+                            newmatrices.setConexion(1);
+                            cambiarestado(newmatrices);
+                        }
+                        if(mcompuertaNot[5][0].getConexion() ==1){
+
+                            mcompuertaNot[6][0].setConexion(0);
+                            newmatrices = distancia_minima(mcompuertaNot[6][0].getCoordenada_x(), mcompuertaNot[6][0].getCoordenada_y());
+                            newmatrices.setConexion(0);
+                            cambiarestado(newmatrices);
+                        }else{
+                            mcompuertaNot[6][0].setConexion(1);
+                            newmatrices = distancia_minima(mcompuertaNot[6][0].getCoordenada_x(), mcompuertaNot[6][0].getCoordenada_y());
+                            newmatrices.setConexion(1);
+                            cambiarestado(newmatrices);
+                        }
+                        if(mcompuertaNot[0][1].getConexion() ==1){
+
+                            mcompuertaNot[1][1].setConexion(0);
+                            newmatrices = distancia_minima(mcompuertaNot[1][1].getCoordenada_x(), mcompuertaNot[1][1].getCoordenada_y());
+                            newmatrices.setConexion(0);
+                            cambiarestado(newmatrices);
+                        }else{
+                            mcompuertaNot[1][1].setConexion(1);
+                            newmatrices = distancia_minima(mcompuertaNot[1][1].getCoordenada_x(), mcompuertaNot[1][1].getCoordenada_y());
+                            newmatrices.setConexion(1);
+                            cambiarestado(newmatrices);
+                        }
+                        if(mcompuertaNot[2][1].getConexion() ==1){
+
+                            mcompuertaNot[3][1].setConexion(0);
+                            newmatrices = distancia_minima(mcompuertaNot[3][1].getCoordenada_x(), mcompuertaNot[3][1].getCoordenada_y());
+                            newmatrices.setConexion(0);
+                            cambiarestado(newmatrices);
+                        }else{
+                            mcompuertaNot[3][1].setConexion(1);
+                            newmatrices = distancia_minima(mcompuertaNot[3][1].getCoordenada_x(), mcompuertaNot[3][1].getCoordenada_y());
+                            newmatrices.setConexion(1);
+                            cambiarestado(newmatrices);
+                        }
+                        if(mcompuertaNot[4][1].getConexion() ==1){
+
+                            mcompuertaNot[5][1].setConexion(0);
+                            newmatrices = distancia_minima(mcompuertaNot[5][1].getCoordenada_x(), mcompuertaNot[5][1].getCoordenada_y());
+                            newmatrices.setConexion(0);
+                            cambiarestado(newmatrices);
+                        }else{
+                            mcompuertaNot[5][1].setConexion(1);
+                            newmatrices = distancia_minima(mcompuertaNot[5][1].getCoordenada_x(), mcompuertaNot[5][1].getCoordenada_y());
+                            newmatrices.setConexion(1);
+                            cambiarestado(newmatrices);
+                        }
+
+
+                        cambiarconexionespropias();
+                        cambiarconexiones();
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Compuerta no polarizada  " , Toast.LENGTH_SHORT).show();
+                    }
+
 
 
                     if(leds[0].getConexion()==1){
@@ -463,6 +675,7 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     OnOff=0;
                     bOnOff.setText("On");
+                    conexionesOriginales();
                     leds11.setVisibility(View.INVISIBLE);
                     leds12.setVisibility(View.INVISIBLE);
                     leds13.setVisibility(View.INVISIBLE);
@@ -498,8 +711,69 @@ public class MainActivity extends AppCompatActivity {
 
                 }else{
                     cablearOcompuertas=0;
-                    bOnOff.setText("Compuertas");
+                    bCableComp.setText("Compuertas");
                 }
+
+            }
+        });
+
+        botonAnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(And==0){
+                    And=1;
+                    Or=0;
+                    Not=0;
+                    componentes.setVisibility(View.VISIBLE);
+                    botonAnd.setText("Desactivar And");
+
+                }else{
+                    And=0;
+                    componentes.setVisibility(View.VISIBLE);
+                    botonAnd.setText("Activar And");
+
+                }
+                Protoboard.invalidate();
+            }
+        });
+        botonOr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Or==0){
+                    Or=1;
+                    And=0;
+                    Not=0;
+                    componenteOr.setVisibility(View.VISIBLE);
+                    botonOr.setText("Desactivar On");
+
+                }else{
+                    Or=0;
+                    componenteOr.setVisibility(View.VISIBLE);
+                    botonOr.setText("Activar On");
+
+                }
+                Protoboard.invalidate();
+
+            }
+        });
+        botonNot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Not==0){
+                    Not=1;
+                    Or=0;
+                    And=0;
+                    componenteNot.setVisibility(View.VISIBLE);
+                    botonNot.setText("Desactivar Not");
+
+                }else{
+                    Not=0;
+                    componenteNot.setVisibility(View.VISIBLE);
+                    botonNot.setText("Activar Not");
+
+                }
+                Protoboard.invalidate();
 
             }
         });
@@ -1307,6 +1581,19 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+            for (int m = 0; m < 7; m++) {
+                for (int n = 0; n < 2; n++) {
+                    punto1= distancia_minima(mcompuertaOr[m][n].getCoordenada_x(), mcompuertaOr[m][n].getCoordenada_y());
+                    mcompuertaOr[m][n].setConexion(punto1.getConexion());
+                }
+            }
+            for (int m = 0; m < 7; m++) {
+                for (int n = 0; n < 2; n++) {
+                    punto1= distancia_minima(mcompuertaNot[m][n].getCoordenada_x(), mcompuertaNot[m][n].getCoordenada_y());
+                    mcompuertaNot[m][n].setConexion(punto1.getConexion());
+                }
+            }
+
         }
     }
 
@@ -1331,6 +1618,64 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+
+    }
+
+    public void conexionesOriginales() {
+
+        for (int i = 0; i < 63; i++) {
+            for (int m = 0; m < 5; m++) {
+
+                ABCDE[i][m].setConexion(i + 2);
+                ABCDE[i][m].setConexionant(i);
+                ABCDE[i][m].setnHuecos(5);
+                FGHIJ[i][m].setConexion(i + 65);
+                FGHIJ[i][m].setConexionant(i + 65);
+                FGHIJ[i][m].setnHuecos(5);
+            }
+        }
+        for(int j = 0; j < 50; j++) {
+            for (int k = 0; k < 2; k++) {
+                VCC[j][k].setConexion(k + 128);
+                VCC[j][k].setConexionant(k + 128);
+                VCC[j][k].setnHuecos(50);
+                GND[j][k].setConexion(k + 130);
+                GND[j][k].setConexionant(k + 130);
+                GND[j][k].setnHuecos(50);
+            }
+        }
+
+
+        for(int i=0; i<15; i++){
+
+            leds[i].setConexion(i + 132);
+            leds[i].setnHuecos(1);
+
+            for(int j=0; j<3; j++){
+
+                switchs[i][j].setConexion(i+147);
+                switchs[i][j].setnHuecos(3);
+                if(i<2){
+
+                    relojs[i][j].setConexion(i + 162);
+                    relojs[i][j].setnHuecos(3);
+                }
+            }
+        }
+
+        for(int i=0; i<21; i++){
+
+            sieteseg1[i].setConexion(i + 164);
+            sieteseg1[i].setnHuecos(1);
+            if(i<5){
+
+                vcc1[i].setConexion(1);
+                vcc1[i].setnHuecos(5);
+                gnd1[i].setConexion(0);
+                gnd1[i].setnHuecos(5);
+            }
+        }
+
 
     }
 
